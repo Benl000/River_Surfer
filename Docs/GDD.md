@@ -94,7 +94,7 @@ stateDiagram-v2
 ---
 
 ## 5. Screens & UI
-<img width="596" height="335" alt="image" src="[https://github.com/user-attachments/assets/2e43d943-6dc2-4bd5-861e-144ede5f3ed6](https://github.com/Benl000/Surfer-Game/blob/main/Docs/WhatsApp%20Image%202026-09-22%20at%2011.31.00.jpeg)" />
+![UI Flow Sketch](WhatsApp%20Image%202026-09-22%20at%2011.31.00.jpeg)
 
 1. **Main Menu** — Title text ("River Surfer"), "Start Run" button, "Quit" button.
 2. **Gameplay** — A simple, high-contrast coin counter at the top center.
