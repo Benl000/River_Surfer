@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Working title** | River Surfer |
-| **Team** | Ben Lutenberg (204713945), Peleg Wortzel (209126275) |
+| **Team** | Ben Lutenberg , Peleg Wortzel |
 | **Genre** | 3-Lane Endless Runner / Arcade score-chaser |
 | **Target platform** | PC (Windows) + Mobile (Android), standalone builds |
 | **Engine / Unity version** | Unity 6 (6000.3.12f1), URP, 3D |
