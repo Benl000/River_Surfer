@@ -87,6 +87,7 @@ MonoBehaviour:
   allowedThemes: 01000000
   placementType: 1
   isSurface: 0
+  rowSpan: 1
   disableRandomScale: 0
   baseScaleMultiplier: 1
   randomScaleJitter: 0.15
@@ -113,5 +114,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.2933973, y: 1.4707346, z: 1.3046817}
+  m_Center: {x: -0.0000016091751, y: 0.7181747, z: 0.00564453}

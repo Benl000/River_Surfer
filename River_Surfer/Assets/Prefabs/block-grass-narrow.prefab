@@ -9,12 +9,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 9498cc24d09448e4eb570d8a4eaf0501, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.2334902
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9498cc24d09448e4eb570d8a4eaf0501, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.2334902
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9498cc24d09448e4eb570d8a4eaf0501, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.2334902
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9498cc24d09448e4eb570d8a4eaf0501, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.4615
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9498cc24d09448e4eb570d8a4eaf0501, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.14494
+      value: -0.45758
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9498cc24d09448e4eb570d8a4eaf0501, type: 3}
       propertyPath: m_LocalPosition.z
@@ -87,9 +99,10 @@ MonoBehaviour:
   allowedThemes: 0000000002000000
   placementType: 0
   isSurface: 1
+  rowSpan: 1
   disableRandomScale: 0
   baseScaleMultiplier: 1
-  randomScaleJitter: 1
+  randomScaleJitter: 0.15
   isContainer: 1
   contentAnchor: {fileID: 0}
   canBeContained: 0
@@ -113,5 +126,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.7631967, y: 1.5069069, z: 0.78539705}
+  m_Center: {x: 0.000000059604645, y: 0.25345343, z: 0}

@@ -9,12 +9,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 0dca79f3b31eddc4ca22e268162f6356, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.1556
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0dca79f3b31eddc4ca22e268162f6356, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.1556
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0dca79f3b31eddc4ca22e268162f6356, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.1556
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0dca79f3b31eddc4ca22e268162f6356, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.4615
+      value: 0.46183
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0dca79f3b31eddc4ca22e268162f6356, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.14494
+      value: -0.17511
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0dca79f3b31eddc4ca22e268162f6356, type: 3}
       propertyPath: m_LocalPosition.z
@@ -66,6 +78,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0dca79f3b31eddc4ca22e268162f6356, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1339588239805310573}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0dca79f3b31eddc4ca22e268162f6356, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1388983983116513242}
   m_SourcePrefab: {fileID: 100100000, guid: 0dca79f3b31eddc4ca22e268162f6356, type: 3}
 --- !u!1 &7681417791423087700 stripped
 GameObject:
@@ -87,6 +102,7 @@ MonoBehaviour:
   allowedThemes: 
   placementType: 0
   isSurface: 0
+  rowSpan: 1
   disableRandomScale: 0
   baseScaleMultiplier: 1
   randomScaleJitter: 0.15
@@ -113,5 +129,18 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.4713591, y: 0.474626, z: 0.25216657}
+  m_Center: {x: -0.0021489114, y: 0.1939207, z: -0.00000008940697}
+--- !u!114 &1388983983116513242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7681417791423087700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5429ec311c4230548a6aafca112a3678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  rotateSpeed: 90

@@ -207,7 +207,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 6, z: -10}
+  m_LocalPosition: {x: 0, y: 6.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -479,12 +479,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f11dcd556c56954f8a0e3596bee2a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
-  laneDistance: 2.5
-  laneSwitchTime: 0.15
   forwardSpeed: 10
-  verticalActionDuration: 0.6
+  laneSwitchTime: 0.15
+  rollAngle: 14
   jumpHeight: 2
+  jumpDuration: 1
+  jumpPitchAngle: 20
   diveDepth: -1.5
+  diveDuration: 0.9
+  divePitchAngle: 18
+  visualModel: {fileID: 0}
 --- !u!65 &961113654
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -652,8 +656,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3a53e71d013ea4ca71d0043092da9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  score: 0
   isGameOver: 0
+  score: 0
+  passiveSpeedIncreasePerSecond: 0.15
+  speedIncreasePerToken: 0.4
+  maxForwardSpeed: 22
 --- !u!4 &2001752665
 Transform:
   m_ObjectHideFlags: 0
@@ -705,13 +712,23 @@ MonoBehaviour:
   - {fileID: 2791004293066860863, guid: 2f33f362392aad643b0c515af0144cc8, type: 3}
   - {fileID: 5859130793319473444, guid: 2153def1daf91714384027d412859e44, type: 3}
   - {fileID: 6762917640343901519, guid: 4c2ebd75e27963044854d9d15068929c, type: 3}
+  coinPrefab: {fileID: 7681417791423087700, guid: 808418d392118ea4fbdb0a0df721b8bc, type: 3}
+  coinTrailChance: 0.2
+  minCoinTrailLength: 3
+  maxCoinTrailLength: 6
+  coinHeightOffset: 0.7
   currentTheme: 0
-  rowsToSpawn: 15
   zSpacing: 5
   laneXPositions:
   - -3.5
   - 0
   - 3.5
+  emptyRowsBetweenObstacles: 3
+  obstacleRowChance: 0.45
+  maxObstaclesPerRow: 1
+  playerTransform: {fileID: 0}
+  forwardViewDistance: 120
+  destroyDistanceBehind: 15
 --- !u!4 &2002717333
 Transform:
   m_ObjectHideFlags: 0

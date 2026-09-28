@@ -4,29 +4,22 @@ public class PlayerCollision : MonoBehaviour
 {
     void OnTriggerEnter(Collider other)
     {
-        // רדאר: מדפיס לקונסול כל אובייקט בעולם שהקוליידר שלנו חותך
-        Debug.Log("Collision Detected with: " + other.gameObject.name + " | Tag: " + other.gameObject.tag);
+        // מוודאים שהמנהל קיים והמשחק לא נגמר
+        if (GameManager.instance == null || GameManager.instance.isGameOver) return;
 
-        // נוודא שהמנהל קיים כדי למנוע שגיאות אדומות
-        if (GameManager.instance == null) 
+        // התנגשות במכשול
+        if (other.CompareTag("Obstacle"))
         {
-            Debug.LogError("GameManager is missing from the scene!");
-            return;
+            Debug.Log("Collision Detected with Obstacle: " + other.gameObject.name);
+            GameManager.instance.TriggerGameOver(); 
         }
-
-        if (GameManager.instance.isGameOver) return;
-
-        // חיפוש חכם: בודק אם התגית נמצאת על הקוליידר עצמו או על אובייקט האב שלו
-        if (other.CompareTag("Obstacle") || other.transform.root.CompareTag("Obstacle"))
+        // איסוף מטבע 
+        else if (other.CompareTag("Collectables"))
         {
-            GameManager.instance.GameOver(); //[cite: 6]
-        }
-        else if (other.CompareTag("Collectible") || other.transform.root.CompareTag("Collectible"))
-        {
-            GameManager.instance.AddScore(1); //[cite: 6]
+            GameManager.instance.AddToken(); 
             
-            // השמדת אובייקט האב כדי שכל המטבע ייעלם, גם אם פגענו רק בילד
-            Destroy(other.transform.root.gameObject);
+            // התיקון: משמידים אך ורק את המטבע הספציפי שפגענו בו!
+            Destroy(other.gameObject);
         }
     }
 }

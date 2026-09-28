@@ -21,7 +21,9 @@ public class SpawnableProperties : MonoBehaviour
     public LevelTheme[] allowedThemes; 
     public PlacementType placementType;
     public bool isSurface; 
-
+    
+[Tooltip("כמה שורות קדימה המכשול הזה תופס בציר ה-Z (ברירת מחדל: 1)")]
+    public int rowSpan = 1;
     [Header("Scale & Size Customization")]
     [Tooltip("סמן כאן כדי לבטל את שינוי הגודל האקראי (האובייקט ייווצר תמיד בגודל קבוע)")]
     public bool disableRandomScale = false;

@@ -9,16 +9,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d83daadda7708df4d809255f5d1055e4, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.5140676
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d83daadda7708df4d809255f5d1055e4, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4.5140676
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d83daadda7708df4d809255f5d1055e4, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4.5140676
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d83daadda7708df4d809255f5d1055e4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.4615
+      value: 0.47187
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d83daadda7708df4d809255f5d1055e4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.14494
+      value: -2.6221
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d83daadda7708df4d809255f5d1055e4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.47596
+      value: -0.46559
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d83daadda7708df4d809255f5d1055e4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -87,6 +99,7 @@ MonoBehaviour:
   allowedThemes: 000000000200000003000000
   placementType: 1
   isSurface: 0
+  rowSpan: 1
   disableRandomScale: 0
   baseScaleMultiplier: 1
   randomScaleJitter: 0.15
@@ -113,5 +126,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.59295917, y: 1.4896289, z: 0.5575644}
+  m_Center: {x: -0.0029495358, y: 0.70494753, z: -0.0029495507}
