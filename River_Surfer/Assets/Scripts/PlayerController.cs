@@ -4,10 +4,11 @@ using DG.Tweening;
 public class PlayerController : MonoBehaviour
 {
     [Header("Lane Settings")]
-    [SerializeField] private float laneDistance = 2.5f; 
+    [SerializeField] private float laneDistance = 3.5f; 
     [SerializeField] private float laneSwitchTime = 0.15f; 
 
     [Header("Vertical Action Settings")]
+    public float forwardSpeed = 10f;
     [SerializeField] private float verticalActionDuration = 0.6f; 
     [SerializeField] private float jumpHeight = 2.0f; 
     [SerializeField] private float diveDepth = -1.5f; 
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         HandleInput();
+        transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
     }
 
     private void HandleInput()
