@@ -6,7 +6,7 @@
 | **Team** | Ben Lutenberg , Peleg wurzel |
 | **Genre** | 3-Lane Endless Runner / Arcade score-chaser |
 | **Target platform** | PC (Windows) + Mobile (Android), standalone builds |
-| **Engine / Unity version** | Unity 6 (6000.3.12f1), URP, 3D |
+| **Engine / Unity version** | Unity 6 (6000.3.20f1), URP, 3D |
 | **Orientation & reference resolution** | Landscape, 1920 × 1080 reference |
 | **Expected session length** | 1 – 3 minutes per run |
 | **Document version** | v1.1 — 2026-09-22 |
