@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1536
     height: 772.8
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: WaterShader
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -321,7 +321,7 @@ MonoBehaviour:
     m_DynamicPanelBehavior: 0
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 0
+  m_LastSelectedObjectID: 45790
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -684,7 +684,8 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: []
+      m_SelectedIDs:
+      - m_Data: 45790
       m_LastClickedID:
         m_Data: 0
       m_ExpandedIDs:
@@ -1239,7 +1240,7 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 0, y: 0.54641, z: 0}
+    m_Target: {x: 0.120496556, y: -0.14518331, z: -0.07261899}
     speed: 2
     m_Value: {x: 0, y: 0.54641, z: 0}
   m_RenderMode: 0
@@ -1287,15 +1288,15 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.048786055, y: -0.6019841, z: 0.036887497, w: 0.7961624}
+    m_Target: {x: 0.10853469, y: -0.6736729, z: 0.10098947, w: 0.7240117}
     speed: 2
     m_Value: {x: -0.048786055, y: 0.6019841, z: -0.036887497, w: -0.7961624}
   m_Size:
-    m_Target: 8.7391
+    m_Target: 1.8525479
     speed: 2
     m_Value: 8.7391
   m_Ortho:
-    m_Target: 1
+    m_Target: 0
     speed: 2
     m_Value: 1
   m_CameraSettings:
@@ -1401,7 +1402,9 @@ MonoBehaviour:
     m_ExpandedIDs:
     - m_Data: 0
     - m_Data: 47034
-    - m_Data: 47036
+    - m_Data: 56804
+    - m_Data: 56812
+    - m_Data: 1000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1435,7 +1438,9 @@ MonoBehaviour:
     m_ExpandedIDs:
     - m_Data: 0
     - m_Data: 47034
-    - m_Data: 47036
+    - m_Data: 56804
+    - m_Data: 56812
+    - m_Data: 1000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

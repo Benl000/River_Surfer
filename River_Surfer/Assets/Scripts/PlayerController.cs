@@ -3,8 +3,12 @@ using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Debug")]
+    [Tooltip("סמן ב-V כדי שהסירה לא תיפסל ממכשולים")]
+    public bool godMode = false;
+
     [Header("Forward Speed")]
-    public float forwardSpeed = 20f;
+    public float forwardSpeed = 50f;
 
     [Header("Lane Movement")]
     public float laneSwitchTime = 0.35f; 
@@ -29,10 +33,17 @@ public class PlayerController : MonoBehaviour
     [Header("Visual Anchor (Optional)")]
     [SerializeField] private Transform visualModel;
 
+    [Header("Effects")]
+    public ParticleSystem wakeParticles;
+    
+    private bool isWakePlaying = false; 
     private int currentLane = 1; 
     private bool isSwitchingLane = false;
     private bool isVerticalMoving = false;
     private float initialY = 0f;
+    
+    // משתנה שנוסף כדי למנוע קלט אחרי פסילה
+    public bool isDead = false; 
 
     private Transform ModelTransform => visualModel != null ? visualModel : transform;
 
@@ -50,9 +61,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Update()
+  void Update()
     {
-        if (GameManager.instance != null && GameManager.instance.isGameOver) return;
+        if (wakeParticles != null)
+        {
+            // בודק אם הסירה נמצאת בדיוק בגובה פני המים (עם סטייה קטנה למניעת ריצוד)
+            bool isTouchingWater = Mathf.Abs(transform.position.y - initialY) < 0.2f;
+            
+            // השובל יעבוד רק אם השחקן חי, זז קדימה, ונוגע פיזית במים
+            bool shouldHaveWake = (!isDead && forwardSpeed > 0f && isTouchingWater);
+
+            // שליטה ישירה ומוחלטת בפליטת החלקיקים ברמת הפריים
+            var emission = wakeParticles.emission;
+            if (emission.enabled != shouldHaveWake)
+            {
+                emission.enabled = shouldHaveWake;
+            }
+        }
+
+        if (isDead || (GameManager.instance != null && GameManager.instance.isGameOver)) return;
 
         HandleInput();
         transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
@@ -104,11 +131,9 @@ public class PlayerController : MonoBehaviour
 
         float halfDuration = jumpDuration * 0.5f;
 
-        // 1. קשת גובה מלאה ומרווחת
         jumpSeq.Append(transform.DOMoveY(initialY + jumpHeight, halfDuration).SetEase(Ease.OutQuad));
         jumpSeq.Append(transform.DOMoveY(initialY, halfDuration).SetEase(Ease.InQuad));
 
-        // 2. תנועת חרטום אורגנית המסונכרנת לפי מחצית משך הקשת
         Sequence pitchSeq = DOTween.Sequence();
         pitchSeq.Append(ModelTransform.DOLocalRotate(new Vector3(-jumpPitchAngle, 0, 0), halfDuration * 0.65f).SetEase(Ease.OutSine));
         pitchSeq.Append(ModelTransform.DOLocalRotate(new Vector3(jumpPitchAngle * 0.8f, 0, 0), halfDuration * 0.95f).SetEase(Ease.InOutSine));
@@ -116,7 +141,6 @@ public class PlayerController : MonoBehaviour
 
         jumpSeq.Join(pitchSeq);
 
-        // 3. שיכוך נחיתה במים וחזרה למפלס
         jumpSeq.Append(transform.DOMoveY(initialY - 0.25f, 0.12f).SetEase(Ease.OutSine));
         jumpSeq.Append(transform.DOMoveY(initialY, 0.15f).SetEase(Ease.InSine));
 
@@ -130,11 +154,9 @@ public class PlayerController : MonoBehaviour
 
         float halfDuration = diveDuration * 0.5f;
 
-        // 1. קשת צלילה עמוקה וממושכת
         diveSeq.Append(transform.DOMoveY(initialY + diveDepth, halfDuration).SetEase(Ease.OutQuad));
         diveSeq.Append(transform.DOMoveY(initialY, halfDuration).SetEase(Ease.InQuad));
 
-        // 2. תנועת חרטום מותאמת לצלילה
         Sequence pitchSeq = DOTween.Sequence();
         pitchSeq.Append(ModelTransform.DOLocalRotate(new Vector3(divePitchAngle, 0, 0), halfDuration * 0.6f).SetEase(Ease.OutSine));
         pitchSeq.Append(ModelTransform.DOLocalRotate(new Vector3(-divePitchAngle * 0.7f, 0, 0), halfDuration * 0.95f).SetEase(Ease.InOutSine));
@@ -142,10 +164,48 @@ public class PlayerController : MonoBehaviour
 
         diveSeq.Join(pitchSeq);
 
-        // 3. שבירת גלים ויישור עם המים
         diveSeq.Append(transform.DOMoveY(initialY + 0.18f, 0.12f).SetEase(Ease.OutSine));
         diveSeq.Append(transform.DOMoveY(initialY, 0.12f).SetEase(Ease.InSine));
 
         diveSeq.OnComplete(() => isVerticalMoving = false);
+    }
+
+    // --- התוספת לטיפול בפסילה (מכסה את כל סוגי המכשולים) ---
+    private void OnTriggerEnter(Collider other)
+    {
+        if (godMode) return; 
+
+        if (other.CompareTag("Obstacle") && !isDead)
+        {
+            Die();
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (godMode) return; 
+
+        if (collision.gameObject.CompareTag("Obstacle") && !isDead)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        isDead = true;
+        forwardSpeed = 0f; // עוצר את המהירות, מה שיעצור גם את טקסטורת הים
+
+        // עוצר את כל האנימציות של DOTween שרצות כרגע על הסירה
+        transform.DOKill();
+        if (visualModel != null) visualModel.DOKill();
+
+        // קריאה ל-GameManager לעדכן את מצב המשחק (אם הפונקציה אצלך נקראת אחרת, עדכן אותה)
+        if (GameManager.instance != null)
+        {
+            // GameManager.instance.GameOver(); 
+        }
+        
+        Debug.Log("Player hit an obstacle! Game Over.");
     }
 }
