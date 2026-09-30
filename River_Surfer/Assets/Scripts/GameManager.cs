@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening; // <-- הספרייה שנוספה לניהול האנימציות
 
 public class GameManager : MonoBehaviour
 {
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                DOTween.KillAll(); // <-- מנקה את כל האנימציות שרצות ברקע לפני טעינת הסצנה מחדש
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
             return;

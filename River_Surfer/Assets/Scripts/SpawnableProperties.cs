@@ -17,20 +17,15 @@ public enum LevelTheme
 public class SpawnableProperties : MonoBehaviour
 {
     [Header("Theme & Placement")]
-    [Tooltip("אילו נושאים (Themes) מתאימים לאובייקט הזה?")]
     public LevelTheme[] allowedThemes; 
     public PlacementType placementType;
     public bool isSurface; 
     
-[Tooltip("כמה שורות קדימה המכשול הזה תופס בציר ה-Z (ברירת מחדל: 1)")]
     public int rowSpan = 1;
-    [Header("Scale & Size Customization")]
-    [Tooltip("סמן כאן כדי לבטל את שינוי הגודל האקראי (האובייקט ייווצר תמיד בגודל קבוע)")]
-    public bool disableRandomScale = false;
     
-    [Tooltip("תיקון גודל בסיסי (למשל להגדיל עץ קטן או להקטין אובייקט ענק)")]
+    [Header("Scale & Size Customization")]
+    public bool disableRandomScale = false;
     public float baseScaleMultiplier = 1f;
-    [Tooltip("כמה אחוז אקראיות להוסיף לגודל כדי לשבור אחידות (לא יעבוד אם סימנת V למעלה)")]
     public float randomScaleJitter = 0.15f;
 
     [Header("Containment Rules")]
@@ -39,6 +34,24 @@ public class SpawnableProperties : MonoBehaviour
     public bool canBeContained; 
 
     [Header("Rotation Options")]
-    [Tooltip("אם רשימה זו ריקה, האובייקט יקבל סיבוב אקראי חופשי לחלוטין על ציר ה-Y")]
     public Vector3[] allowedRotations;
+
+    // --- אוטומציית קוליידרים ---
+    void Awake()
+    {
+        // סורק את האובייקט הראשי ואת כל הילדים שלו כדי למצוא קוליידרים
+        Collider[] colliders = GetComponentsInChildren<Collider>(true);
+        
+        foreach (Collider col in colliders)
+        {
+            // הופך לטריגר בכל מקרה
+            col.isTrigger = true;
+
+            // משנה את התגית למכשול *רק* אם זה לא מטבע
+            if (!col.gameObject.CompareTag("Collectables"))
+            {
+                col.gameObject.tag = "Obstacle";
+            }
+        }
+    }
 }

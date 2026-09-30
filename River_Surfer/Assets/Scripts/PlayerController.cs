@@ -36,13 +36,11 @@ public class PlayerController : MonoBehaviour
     [Header("Effects")]
     public ParticleSystem wakeParticles;
     
-    private bool isWakePlaying = false; 
     private int currentLane = 1; 
     private bool isSwitchingLane = false;
     private bool isVerticalMoving = false;
     private float initialY = 0f;
     
-    // משתנה שנוסף כדי למנוע קלט אחרי פסילה
     public bool isDead = false; 
 
     private Transform ModelTransform => visualModel != null ? visualModel : transform;
@@ -61,17 +59,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-  void Update()
+    void Update()
     {
         if (wakeParticles != null)
         {
-            // בודק אם הסירה נמצאת בדיוק בגובה פני המים (עם סטייה קטנה למניעת ריצוד)
+            // בודק אם הסירה נמצאת בדיוק בגובה פני המים
             bool isTouchingWater = Mathf.Abs(transform.position.y - initialY) < 0.2f;
             
             // השובל יעבוד רק אם השחקן חי, זז קדימה, ונוגע פיזית במים
             bool shouldHaveWake = (!isDead && forwardSpeed > 0f && isTouchingWater);
 
-            // שליטה ישירה ומוחלטת בפליטת החלקיקים ברמת הפריים
             var emission = wakeParticles.emission;
             if (emission.enabled != shouldHaveWake)
             {
@@ -82,9 +79,10 @@ public class PlayerController : MonoBehaviour
         if (isDead || (GameManager.instance != null && GameManager.instance.isGameOver)) return;
 
         HandleInput();
-        transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
+        
+        // התיקון הקריטי: דחיפה על ציר העולם בלבד, מתעלם מזווית הסירה
+        transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime, Space.World);
     }
-
     private void HandleInput()
     {
         if (!isSwitchingLane)
@@ -124,26 +122,24 @@ public class PlayerController : MonoBehaviour
         rollSequence.Append(ModelTransform.DOLocalRotate(Vector3.zero, laneSwitchTime * 0.55f).SetEase(Ease.InSine));
     }
 
-    private void PerformJump()
+private void PerformJump()
     {
         isVerticalMoving = true;
         Sequence jumpSeq = DOTween.Sequence();
 
         float halfDuration = jumpDuration * 0.5f;
 
+        // 1. תנועה למעלה ולמטה בלבד - עד למפלס המים המדויק (ללא שקיעה נוספת)
         jumpSeq.Append(transform.DOMoveY(initialY + jumpHeight, halfDuration).SetEase(Ease.OutQuad));
         jumpSeq.Append(transform.DOMoveY(initialY, halfDuration).SetEase(Ease.InQuad));
 
+        // 2. סינכרון מושלם של זווית החרטום לאורך זמן הקפיצה
         Sequence pitchSeq = DOTween.Sequence();
         pitchSeq.Append(ModelTransform.DOLocalRotate(new Vector3(-jumpPitchAngle, 0, 0), halfDuration * 0.65f).SetEase(Ease.OutSine));
         pitchSeq.Append(ModelTransform.DOLocalRotate(new Vector3(jumpPitchAngle * 0.8f, 0, 0), halfDuration * 0.95f).SetEase(Ease.InOutSine));
-        pitchSeq.Append(ModelTransform.DOLocalRotate(Vector3.zero, 0.18f).SetEase(Ease.OutSine));
+        pitchSeq.Append(ModelTransform.DOLocalRotate(Vector3.zero, halfDuration * 0.4f).SetEase(Ease.OutSine)); // מתיישר בדיוק בנחיתה
 
         jumpSeq.Join(pitchSeq);
-
-        jumpSeq.Append(transform.DOMoveY(initialY - 0.25f, 0.12f).SetEase(Ease.OutSine));
-        jumpSeq.Append(transform.DOMoveY(initialY, 0.15f).SetEase(Ease.InSine));
-
         jumpSeq.OnComplete(() => isVerticalMoving = false);
     }
 
@@ -154,58 +150,74 @@ public class PlayerController : MonoBehaviour
 
         float halfDuration = diveDuration * 0.5f;
 
+        // 1. תנועה פנימה והחוצה בלבד - עד למפלס המים המדויק (ללא קפיצה נוספת)
         diveSeq.Append(transform.DOMoveY(initialY + diveDepth, halfDuration).SetEase(Ease.OutQuad));
         diveSeq.Append(transform.DOMoveY(initialY, halfDuration).SetEase(Ease.InQuad));
 
+        // 2. סינכרון מושלם של זווית החרטום לאורך זמן הצלילה
         Sequence pitchSeq = DOTween.Sequence();
         pitchSeq.Append(ModelTransform.DOLocalRotate(new Vector3(divePitchAngle, 0, 0), halfDuration * 0.6f).SetEase(Ease.OutSine));
         pitchSeq.Append(ModelTransform.DOLocalRotate(new Vector3(-divePitchAngle * 0.7f, 0, 0), halfDuration * 0.95f).SetEase(Ease.InOutSine));
-        pitchSeq.Append(ModelTransform.DOLocalRotate(Vector3.zero, 0.18f).SetEase(Ease.OutSine));
+        pitchSeq.Append(ModelTransform.DOLocalRotate(Vector3.zero, halfDuration * 0.45f).SetEase(Ease.OutSine)); // מתיישר בדיוק בעלייה למים
 
         diveSeq.Join(pitchSeq);
-
-        diveSeq.Append(transform.DOMoveY(initialY + 0.18f, 0.12f).SetEase(Ease.OutSine));
-        diveSeq.Append(transform.DOMoveY(initialY, 0.12f).SetEase(Ease.InSine));
-
         diveSeq.OnComplete(() => isVerticalMoving = false);
     }
 
-    // --- התוספת לטיפול בפסילה (מכסה את כל סוגי המכשולים) ---
+    // --- מערכת ההתנגשויות המאוחדת ---
     private void OnTriggerEnter(Collider other)
     {
-        if (godMode) return; 
+        if (GameManager.instance == null || GameManager.instance.isGameOver) return;
 
-        if (other.CompareTag("Obstacle") && !isDead)
+        if (other.CompareTag("Obstacle"))
         {
-            Die();
+            if (godMode) return;
+
+            Debug.Log("Collision Detected with Obstacle: " + other.gameObject.name);
+            
+            forwardSpeed = 0f;
+            isDead = true;
+            
+            // עצירת האנימציות
+            transform.DOKill();
+            if (visualModel != null) visualModel.DOKill();
+
+            GameManager.instance.TriggerGameOver(); 
+        }
+        else if (other.CompareTag("Collectables"))
+        {
+            GameManager.instance.AddToken(); 
+            Destroy(other.gameObject);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (godMode) return; 
+        if (GameManager.instance == null || GameManager.instance.isGameOver) return;
 
-        if (collision.gameObject.CompareTag("Obstacle") && !isDead)
+        if (collision.gameObject.CompareTag("Obstacle"))
         {
-            Die();
+            if (godMode) return;
+
+            Debug.Log("Hard Collision Detected with Obstacle: " + collision.gameObject.name);
+            
+            forwardSpeed = 0f;
+            isDead = true;
+            
+            transform.DOKill();
+            if (visualModel != null) visualModel.DOKill();
+
+            GameManager.instance.TriggerGameOver(); 
         }
     }
 
-    private void Die()
+private void OnDestroy()
     {
-        isDead = true;
-        forwardSpeed = 0f; // עוצר את המהירות, מה שיעצור גם את טקסטורת הים
-
-        // עוצר את כל האנימציות של DOTween שרצות כרגע על הסירה
+        // מוודא שכל האנימציות הספציפיות שעובדות על הסירה נעצרות רגע לפני שהיא נמחקת
         transform.DOKill();
-        if (visualModel != null) visualModel.DOKill();
-
-        // קריאה ל-GameManager לעדכן את מצב המשחק (אם הפונקציה אצלך נקראת אחרת, עדכן אותה)
-        if (GameManager.instance != null)
+        if (visualModel != null)
         {
-            // GameManager.instance.GameOver(); 
+            visualModel.DOKill();
         }
-        
-        Debug.Log("Player hit an obstacle! Game Over.");
     }
 }
