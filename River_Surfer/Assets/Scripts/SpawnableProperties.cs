@@ -1,53 +1,50 @@
 using UnityEngine;
 
-public enum PlacementType 
-{ 
-    WaterOnly, 
-    LandOnly, 
-    Both 
-}
-
-public enum LevelTheme 
-{ 
-    Summer, 
-    Winter, 
-    Ruins 
-}
+public enum LevelTheme { Summer, Rocky, Pirates }
+public enum PlacementLocation { WaterOnly, SurfaceOnly, Both }
+public enum ObjectRole { TrackOnly, BackgroundOnly, Both }
 
 public class SpawnableProperties : MonoBehaviour
 {
-    [Header("Theme & Placement")]
+    [Header("Themes")]
     public LevelTheme[] allowedThemes; 
-    public PlacementType placementType;
+    
+    [Header("Placement & Role")]
+    public ObjectRole objectRole = ObjectRole.TrackOnly;
+    public PlacementLocation placementLocation = PlacementLocation.WaterOnly;
     public bool isSurface; 
     
+    [Header("Background Density")]
+    public int backgroundDensityMultiplier = 1;
+
+    [Header("Spawn Chance")]
+    public int spawnWeight = 1;
+
+    [Header("Placement Nudge & Anchors")]
+    public float manualYOffset = 0f;
+    [Tooltip("לאובייקטים בעייתיים (כמו משטח עם עץ): גרור לכאן אובייקט ריק שמסמן בדיוק את מרכז הרצפה. המערכת תתעלם משאר החישובים ותשתמש בו!")]
+    public Transform customSurfaceAnchor;
+
+    [Header("Grid Blocking")]
+    public bool autoCalculateSpans = true; 
     public int rowSpan = 1;
+    public int laneSpan = 1;
     
-    [Header("Scale & Size Customization")]
+    [Header("Scale Options")]
     public bool disableRandomScale = false;
     public float baseScaleMultiplier = 1f;
     public float randomScaleJitter = 0.15f;
 
-    [Header("Containment Rules")]
-    public bool isContainer; 
-    public Transform contentAnchor; 
-    public bool canBeContained; 
-
     [Header("Rotation Options")]
+    public bool disableRandomRotation = false;
     public Vector3[] allowedRotations;
 
-    // --- אוטומציית קוליידרים ---
     void Awake()
     {
-        // סורק את האובייקט הראשי ואת כל הילדים שלו כדי למצוא קוליידרים
         Collider[] colliders = GetComponentsInChildren<Collider>(true);
-        
         foreach (Collider col in colliders)
         {
-            // הופך לטריגר בכל מקרה
             col.isTrigger = true;
-
-            // משנה את התגית למכשול *רק* אם זה לא מטבע
             if (!col.gameObject.CompareTag("Collectables"))
             {
                 col.gameObject.tag = "Obstacle";
