@@ -203,15 +203,7 @@ public class PlayerController : MonoBehaviour
 
             GameManager.instance.TriggerGameOver(); 
         }
-        else if (other.CompareTag("Collectables"))
-        {
-            // הפעלת סאונד איסוף מטבע
-            if (AudioManager.Instance != null) 
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.coinSound);
-                
-            GameManager.instance.AddToken(); 
-            Destroy(other.gameObject);
-        }
+
     }
 
     private void OnCollisionEnter(Collision collision)

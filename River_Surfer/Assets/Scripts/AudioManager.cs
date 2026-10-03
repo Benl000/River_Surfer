@@ -45,4 +45,20 @@ public class AudioManager : MonoBehaviour
             sfxSource.PlayOneShot(clip);
         }
     }
+
+    public void ToggleBGM()
+    {
+        if (bgmSource != null)
+        {
+            bgmSource.mute = !bgmSource.mute; // הופך את המצב (אם מושתק ידלק, ולהפך)
+        }
+    }
+
+    public void ToggleSFX()
+    {
+        if (sfxSource != null)
+        {
+            sfxSource.mute = !sfxSource.mute;
+        }
+    }
 }
