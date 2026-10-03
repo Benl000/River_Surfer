@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour
         // התיקון הקריטי: דחיפה על ציר העולם בלבד, מתעלם מזווית הסירה
         transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime, Space.World);
     }
+    
     private void HandleInput()
     {
         if (!isSwitchingLane)
@@ -109,6 +110,10 @@ public class PlayerController : MonoBehaviour
 
         currentLane = targetLane;
         isSwitchingLane = true;
+        
+        // הפעלת סאונד מעבר נתיב
+        if (AudioManager.Instance != null) 
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.laneSwitchSound);
 
         float targetX = TrackManager.instance.laneXPositions[currentLane];
 
@@ -122,9 +127,14 @@ public class PlayerController : MonoBehaviour
         rollSequence.Append(ModelTransform.DOLocalRotate(Vector3.zero, laneSwitchTime * 0.55f).SetEase(Ease.InSine));
     }
 
-private void PerformJump()
+    private void PerformJump()
     {
         isVerticalMoving = true;
+        
+        // הפעלת סאונד קפיצה
+        if (AudioManager.Instance != null) 
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.jumpSound);
+            
         Sequence jumpSeq = DOTween.Sequence();
 
         float halfDuration = jumpDuration * 0.5f;
@@ -146,6 +156,11 @@ private void PerformJump()
     private void PerformDive()
     {
         isVerticalMoving = true;
+        
+        // הפעלת סאונד צלילה
+        if (AudioManager.Instance != null) 
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.diveSound);
+            
         Sequence diveSeq = DOTween.Sequence();
 
         float halfDuration = diveDuration * 0.5f;
@@ -175,6 +190,10 @@ private void PerformJump()
 
             Debug.Log("Collision Detected with Obstacle: " + other.gameObject.name);
             
+            // הפעלת סאונד התרסקות
+            if (AudioManager.Instance != null) 
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.crashSound);
+            
             forwardSpeed = 0f;
             isDead = true;
             
@@ -186,6 +205,10 @@ private void PerformJump()
         }
         else if (other.CompareTag("Collectables"))
         {
+            // הפעלת סאונד איסוף מטבע
+            if (AudioManager.Instance != null) 
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.coinSound);
+                
             GameManager.instance.AddToken(); 
             Destroy(other.gameObject);
         }
@@ -201,6 +224,10 @@ private void PerformJump()
 
             Debug.Log("Hard Collision Detected with Obstacle: " + collision.gameObject.name);
             
+            // הפעלת סאונד התרסקות
+            if (AudioManager.Instance != null) 
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.crashSound);
+            
             forwardSpeed = 0f;
             isDead = true;
             
@@ -211,7 +238,7 @@ private void PerformJump()
         }
     }
 
-private void OnDestroy()
+    private void OnDestroy()
     {
         // מוודא שכל האנימציות הספציפיות שעובדות על הסירה נעצרות רגע לפני שהיא נמחקת
         transform.DOKill();
