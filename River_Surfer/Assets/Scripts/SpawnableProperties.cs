@@ -22,7 +22,6 @@ public class SpawnableProperties : MonoBehaviour
 
     [Header("Placement Nudge & Anchors")]
     public float manualYOffset = 0f;
-    [Tooltip("לאובייקטים בעייתיים (כמו משטח עם עץ): גרור לכאן אובייקט ריק שמסמן בדיוק את מרכז הרצפה. המערכת תתעלם משאר החישובים ותשתמש בו!")]
     public Transform customSurfaceAnchor;
 
     [Header("Grid Blocking")]

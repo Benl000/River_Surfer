@@ -12,8 +12,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip backgroundMusic;
     public AudioClip coinSound;
     public AudioClip jumpSound;
-    public AudioClip diveSound;       // סאונד צלילה
-    public AudioClip laneSwitchSound; // סאונד מעבר נתיב
+    public AudioClip diveSound;
+    public AudioClip laneSwitchSound;
     public AudioClip crashSound;
 
     private void Awake()
@@ -50,7 +50,7 @@ public class AudioManager : MonoBehaviour
     {
         if (bgmSource != null)
         {
-            bgmSource.mute = !bgmSource.mute; // הופך את המצב (אם מושתק ידלק, ולהפך)
+            bgmSource.mute = !bgmSource.mute;
         }
     }
 

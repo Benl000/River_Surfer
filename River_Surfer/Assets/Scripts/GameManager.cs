@@ -186,7 +186,6 @@ public class GameManager : MonoBehaviour
     {
         foreach (TextMeshProUGUI txt in highScoreTexts)
         {
-            // שונה ל-"Best" לבקשתך לעיצוב נקי יותר
             if (txt != null) txt.text = "Best: " + highScore.ToString("D4");
         }
     }

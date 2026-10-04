@@ -18,7 +18,6 @@ public class Token : MonoBehaviour
         {
             isCollected = true; 
             
-            // מנגן את הסאונד ישירות מכאן במקום מהשחקן
             if (AudioManager.Instance != null) 
                 AudioManager.Instance.PlaySFX(AudioManager.Instance.coinSound);
                 

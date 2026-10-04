@@ -98,7 +98,6 @@ public class TrackManager : MonoBehaviour
             int totalThemes = System.Enum.GetValues(typeof(LevelTheme)).Length;
             int nextThemeIndex = ((int)currentTheme + 1) % totalThemes;
             currentTheme = (LevelTheme)nextThemeIndex;
-            Debug.Log("Switched to new Theme: " + currentTheme);
         }
 
         GameObject rowParent = new GameObject("Row_" + nextSpawnZ);
@@ -286,7 +285,6 @@ public class TrackManager : MonoBehaviour
 
         Vector3 surfaceCenterTop;
 
-        // --- התיקון: בדיקת עוגן ידני ---
         if (baseProps.customSurfaceAnchor != null)
         {
             surfaceCenterTop = baseProps.customSurfaceAnchor.position;
@@ -338,7 +336,6 @@ public class TrackManager : MonoBehaviour
                         foreach (Renderer r in propRenderers) propBounds.Encapsulate(r.bounds);
                     }
 
-                    // משתמשים במרכז של העוגן כבסיס לפיזור
                     float finalX = surfaceCenterTop.x;
                     float finalZ = surfaceCenterTop.z;
 
