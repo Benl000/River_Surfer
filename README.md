@@ -1,6 +1,6 @@
 # River Surfer 🚤
 
-![River Surfer Gameplay](Docs/screenshot.jpg)
+![River Surfer Gameplay](Docs/screenshot.png)
 
 🎮 **[Play the Game in your Browser!](https://benl000.itch.io/riversurfer)**
 
