@@ -23,4 +23,4 @@ Navigate a speedboat, jump over logs, dive under bridges, and collect coins to s
 
 * **[Read the full Game Design Document (GDD) here](Docs/GDD.md)**
 
-![UI Flow Sketch](WhatsApp%20Image%202026-09-22%20at%2011.31.00.jpeg)
+![UI Flow Sketch](Docs/WhatsApp%20Image%202026-09-22%20at%2011.31.00.jpeg)
